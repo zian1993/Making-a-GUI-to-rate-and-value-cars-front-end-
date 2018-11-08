@@ -1,0 +1,70 @@
+public void actionPerformed(ActionEvent e) {
+				//Setting the doors and persons
+				//Doors
+				car.setDoors((Integer)doorspinner.getValue());
+				
+				//Persons
+				if (((Integer)peoplespinner.getValue()) == 3)
+					car.setPersons(4);
+				else
+					car.setPersons((Integer)peoplespinner.getValue());
+
+				//Setting the boot capacity from the radiobuttons
+				for (int i=0; i<radiomen.getButtonCount();i++)
+				{
+					if (radiomen.getElements().nextElement().isSelected())
+						car.setTrunk(radiomen.getElements().nextElement().getText());
+				}
+				
+				//Setting the rest of the values from the other components to the
+				//car as well, in case the user didn't bother with changing them,
+				//and hence not causing an event handler to fire.
+				
+				//Setting Maintenance
+				car.setMaint((String)maintcomboBox.getSelectedItem());
+				
+				//Setting safety
+				if (safetyslider.getValue()<=33)
+					car.setSafety("low");
+				else if (safetyslider.getValue()<=66)
+					car.setSafety("med");
+				else
+					car.setSafety("high");
+				
+				//Getting the purchase price of the car
+				buyprice = Integer.parseInt(buytext.getText());
+				
+				//Going onto the next panel
+				setVisible(false);
+				main.getContentPane().add(new PredictionResults(car, buyprice, main));
+				
+			}
+
+tasks++;
+				completionBar.setValue((tasks/6)*100);
+
+tasks++;
+				completionBar.setValue((tasks/6)*100);
+
+
+
+
+
+//Incase the user doesn't press enter, still retrieve data.
+		buytext.getDocument().addDocumentListener(new DocumentListener() {
+			public void changedUpdate(DocumentEvent e) {
+				if (buytext.getText().matches("\\d+"))
+					buyprice = Integer.parseInt(buytext.getText());
+				else
+				{
+					JOptionPane.showMessageDialog(null,
+							"Error: Only integers my friend!", "Error my Friend!",
+							JOptionPane.ERROR_MESSAGE);
+					buytext.setText("");
+				}
+			}
+			public void removeUpdate(DocumentEvent e) {
+			}
+			public void insertUpdate(DocumentEvent e) {
+			}
+		});
